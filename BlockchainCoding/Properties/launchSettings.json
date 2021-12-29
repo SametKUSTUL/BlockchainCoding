@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "BlockchainCoding": {
+      "commandName": "Project",
+      "commandLineArgs": "5001 Samet"
+    }
+  }
+}
