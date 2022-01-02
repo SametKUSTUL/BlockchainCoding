@@ -4,6 +4,13 @@ using System.Collections.Generic;
 
 namespace BlockchainCoding
 {
+    public enum LogType
+    {
+        Info=15,
+        Error=12,
+        Warning=14
+    }
+
     class Program
     {
         public static Blockchain ourblockchain = new Blockchain();
@@ -13,11 +20,11 @@ namespace BlockchainCoding
         public static List<Miner> MinerList = null;
         public static string name = "Unknown";
 
-        public static void ConsoleWrite(string line, ConsoleColor color)
+        public static void ConsoleWrite(string line, LogType type)
         {
-            Console.ForegroundColor = color;
+            Console.ForegroundColor = (ConsoleColor)type;
             Console.WriteLine(line);
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = (ConsoleColor)type;
         }
 
         static void Main(string[] args)

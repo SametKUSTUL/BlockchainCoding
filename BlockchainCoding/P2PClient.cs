@@ -46,7 +46,7 @@ namespace BlockchainCoding
                     }
                     else
                     {
-                        Program.ConsoleWrite("\n" + url + "-- Baglanti kurulamadi.Lütfen sunucu adresinden emin olunuz.!",ConsoleColor.Yellow);
+                        Program.ConsoleWrite("\n" + url + "-- Baglanti kurulamadi.Lütfen sunucu adresinden emin olunuz.!",LogType.Warning);
                         
                         
                     }
@@ -54,13 +54,13 @@ namespace BlockchainCoding
                 }
                 else
                 {
-                    Program.ConsoleWrite("Zaten bu sunucuya baglisiniz!", ConsoleColor.Yellow);
+                    Program.ConsoleWrite("Zaten bu sunucuya baglisiniz!", LogType.Warning);
                     
                 }
             }
             catch (WebSocketException e)
             {
-                Program.ConsoleWrite("Connection Failed!", ConsoleColor.Red);
+                Program.ConsoleWrite("Connection Failed!",LogType.Error);
                 
             }
            
