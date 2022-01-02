@@ -24,7 +24,7 @@ namespace BlockchainCoding
         {
             Console.ForegroundColor = (ConsoleColor)type;
             Console.WriteLine(line);
-            Console.ForegroundColor = (ConsoleColor)type;
+            Console.ForegroundColor = (ConsoleColor)LogType.Info;
         }
 
         static void Main(string[] args)
