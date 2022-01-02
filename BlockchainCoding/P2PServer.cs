@@ -28,15 +28,29 @@ namespace BlockchainCoding
             }
             else
             {
-                Blockchain newChain = JsonConvert.DeserializeObject<Blockchain>(e.Data);
-                if (newChain.IsValid() && newChain.Chain.Count > Program.ourblockchain.Chain.Count)
+                if (e.Data.Contains("MinerInfo"))
                 {
-                    List<Transaction> newTransactions = new List<Transaction>();
-                    newTransactions.AddRange(newChain.PendingTransactions);
-                    newTransactions.AddRange(Program.ourblockchain.PendingTransactions);
-                    newChain.PendingTransactions = newTransactions;
-                    Program.ourblockchain = newChain;
+                    List<Miner> newMinerList = JsonConvert.DeserializeObject<List<Miner>>(e.Data);
+                    foreach (Miner item in newMinerList)
+                    {
+                        Program.MinerList.Add(item);
+                    }
+                    
+
                 }
+                else
+                {
+                    Blockchain newChain = JsonConvert.DeserializeObject<Blockchain>(e.Data);
+                    if (newChain.IsValid() && newChain.Chain.Count > Program.ourblockchain.Chain.Count)
+                    {
+                        List<Transaction> newTransactions = new List<Transaction>();
+                        newTransactions.AddRange(newChain.PendingTransactions);
+                        newTransactions.AddRange(Program.ourblockchain.PendingTransactions);
+                        newChain.PendingTransactions = newTransactions;
+                        Program.ourblockchain = newChain;
+                    }
+                }
+               
 
             }
             if (!chainSynched)
@@ -45,5 +59,12 @@ namespace BlockchainCoding
                 chainSynched = true;
             }
         }
+
+        protected override void OnError(ErrorEventArgs e)
+        {
+            Console.WriteLine("Bir hata ile karşılaşıldı.!!");
+            Console.WriteLine(e.ToString());
+        }
+
     }
 }

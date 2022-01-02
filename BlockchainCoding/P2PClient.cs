@@ -8,37 +8,62 @@ namespace BlockchainCoding
 {
     public class P2PClient
     {
-        public IDictionary<string, WebSocket> wsDict = new Dictionary<string, WebSocket>();
+        public static IDictionary<string, WebSocket> wsDict = new Dictionary<string, WebSocket>();
         public void Connect(string url)
         {
-            if (!wsDict.ContainsKey(url))
+            try
             {
-                WebSocket ws = new WebSocket(url);
-                ws.OnMessage += (sender, e) =>
+                if (!wsDict.ContainsKey(url))
                 {
-                    if (e.Data=="Merhaba Client")
+                    WebSocket ws = new WebSocket(url);
+                    ws.WaitTime = TimeSpan.FromSeconds(10);
+                    ws.OnMessage += (sender, e) =>
                     {
-                        Console.WriteLine(e.Data);
+                        if (e.Data == "Merhaba Client")
+                        {
+                            Console.WriteLine(e.Data);
+                        }
+                        else
+                        {
+                            Blockchain newChain = JsonConvert.DeserializeObject<Blockchain>(e.Data);
+                            if (newChain.IsValid() && newChain.Chain.Count > Program.ourblockchain.Chain.Count)
+                            {
+                                List<Transaction> newTransactions = new List<Transaction>();
+                                newTransactions.AddRange(newChain.PendingTransactions);
+                                newTransactions.AddRange(Program.ourblockchain.PendingTransactions);
+                                newChain.PendingTransactions = newTransactions;
+                                Program.ourblockchain = newChain;
+                            }
+
+                        }
+                    };
+                    ws.Connect();
+                    if (ws.IsAlive)
+                    {
+                        ws.Send("Merhaba Server");
+                        ws.Send(JsonConvert.SerializeObject(Program.ourblockchain));
+                        wsDict.Add(url, ws);
                     }
                     else
                     {
-                        Blockchain newChain = JsonConvert.DeserializeObject<Blockchain>(e.Data);
-                        if (newChain.IsValid() && newChain.Chain.Count > Program.ourblockchain.Chain.Count)
-                        {
-                            List<Transaction> newTransactions = new List<Transaction>();
-                            newTransactions.AddRange(newChain.PendingTransactions);
-                            newTransactions.AddRange(Program.ourblockchain.PendingTransactions);
-                            newChain.PendingTransactions = newTransactions;
-                            Program.ourblockchain = newChain;
-                        }
+                        Program.ConsoleWrite("\n" + url + "-- Baglanti kurulamadi.Lütfen sunucu adresinden emin olunuz.!",ConsoleColor.Yellow);
+                        
                         
                     }
-                };
-                ws.Connect();
-                ws.Send("Merhaba Server");
-                ws.Send(JsonConvert.SerializeObject(Program.ourblockchain));
-                wsDict.Add(url, ws);
+                  
+                }
+                else
+                {
+                    Program.ConsoleWrite("Zaten bu sunucuya baglisiniz!", ConsoleColor.Yellow);
+                    
+                }
             }
+            catch (WebSocketException e)
+            {
+                Program.ConsoleWrite("Connection Failed!", ConsoleColor.Red);
+                
+            }
+           
         }
         public void Send(string url , string data)
         {
