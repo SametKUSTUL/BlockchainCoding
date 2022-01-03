@@ -76,10 +76,11 @@ namespace BlockchainCoding
                         Client.Connect($"{serverURL}/Blockchain");
                         break;
                     case 2:
-                        Console.WriteLine("Lütfen Alici adini Girin");
+                        Console.WriteLine("Lütfen Oy vermek istediğiniz kişinin adini yaziniz");
                         string receiverName = Console.ReadLine();
-                        Console.WriteLine("Miktari girin");
-                        string amount = Console.ReadLine();
+                        //Console.WriteLine("Miktari girin");
+                        //string amount = Console.ReadLine();
+                        string amount = "1";
                         ourblockchain.CreateTransaction(new Transaction(name, receiverName, int.Parse(amount)));
                         ourblockchain.ProcessPendingTransactions(name);
                         Client.Broadcast(JsonConvert.SerializeObject(ourblockchain));
@@ -115,11 +116,12 @@ namespace BlockchainCoding
                 }
 
 
-                Console.WriteLine("< ============= Lütfen bir seçenek seçin ============= >");
-                Console.WriteLine("1. Server a Baglan");
-                Console.WriteLine("2. Transaction Ekle");
-                Console.WriteLine("3. Blockchain i Goster");
-                Console.WriteLine("4. Kullanici Bakiye Goster");
+                Console.WriteLine("< ============= Oy Kullanım Uygulaması ============= >");
+                Console.WriteLine("Adaylar: AHMET, MEHMET, AYSE, FATMA, HUSEYIN, ZEYNEP");
+                Console.WriteLine("1. Onayla");
+                Console.WriteLine("2. Oy Kullan");
+                Console.WriteLine("3. Kullanılan Oyları Göster");
+                Console.WriteLine("4. Mevcut Durumu Göster");
                 Console.WriteLine("5. Zincirdeki baglanan serverları göster");
                 Console.WriteLine("6. Zincirdeki tüm minerları göster");
                 Console.WriteLine("-1. Cikis");
