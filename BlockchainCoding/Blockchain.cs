@@ -4,12 +4,14 @@ using System.Text;
 
 namespace BlockchainCoding
 {
+    
     public class Blockchain
     {
         public IList<Transaction> PendingTransactions = new List<Transaction>();
         public IList<Block> Chain { get; set; }
-        public int difficulty { get; set; } = 2;
-        public int Reward { get; set; } = 1;
+        // public int difficulty { get; set; } = 2;
+        //public int Reward { get; set; } = 1;
+        private int difficulty = 2;
         public Blockchain()
         {
             
@@ -50,7 +52,8 @@ namespace BlockchainCoding
         }
         public void ProcessPendingTransactions(string minerAddress)
         {
-            CreateTransaction(new Transaction(null, minerAddress, Reward));
+            //  CreateTransaction(new Transaction(null, minerAddress, Reward));
+            //CreateTransaction(new Transaction(null, minerAddress, 0));
             Block block = new Block(DateTime.Now, GetLatestBlock().Hash, PendingTransactions);
             AddBlock(block);
             PendingTransactions = new List<Transaction>();
