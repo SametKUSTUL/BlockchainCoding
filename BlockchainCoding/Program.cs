@@ -165,6 +165,7 @@ namespace BlockchainCoding
                     case 2:
                         Console.WriteLine("Lütfen Alici adini Girin");
                         string receiverName = Console.ReadLine();
+                        receiverName = receiverName.ToUpper();
                         if (!AdayList.Any(s => receiverName.Contains(s)))
                         {
                             hataliGirisSayisi++;
@@ -225,7 +226,17 @@ namespace BlockchainCoding
 
 
                 Console.WriteLine("< ============= Açık Oy Kullanma Uygulaması ============= >");
-                Program.ConsoleWrite("Adaylar: 1-AHMET \t 2-MEHMET \t 3-AYSE \t 4-FATMA \t 5-HASAN \t 6-ECEM\n", LogType.Warning);
+                //  Program.ConsoleWrite("Adaylar: 1-AHMET \t 2-MEHMET \t 3-AYSE \t 4-FATMA \t 5-HASAN \t 6-ECEM\n", LogType.Warning);
+                string adyList = string.Empty;
+                foreach (string item in AdayList)
+                {
+                    adyList += item + "\t";
+                }
+                Program.ConsoleWrite(string.Concat(new string[] {
+                "Adaylar:",
+                adyList,
+                "\n"
+                }), LogType.Warning);
                 Console.WriteLine("1. Kullanılan Oyları Servera Gönder ");
                 Console.WriteLine("2. Oy Kullan");
                 Console.WriteLine("3. Mevcut Blok Zincirini Göster");
