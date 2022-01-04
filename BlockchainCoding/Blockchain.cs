@@ -4,14 +4,12 @@ using System.Text;
 
 namespace BlockchainCoding
 {
-    
     public class Blockchain
     {
         public IList<Transaction> PendingTransactions = new List<Transaction>();
         public IList<Block> Chain { get; set; }
-        // public int difficulty { get; set; } = 2;
-        //public int Reward { get; set; } = 1;
-        private int difficulty = 2;
+        public int difficulty { get; set; } = 2;
+        public int Reward { get; set; } = 0;
         public Blockchain()
         {
             
@@ -52,8 +50,7 @@ namespace BlockchainCoding
         }
         public void ProcessPendingTransactions(string minerAddress)
         {
-            //  CreateTransaction(new Transaction(null, minerAddress, Reward));
-            //CreateTransaction(new Transaction(null, minerAddress, 0));
+            //CreateTransaction(new Transaction(null, minerAddress, Reward));
             Block block = new Block(DateTime.Now, GetLatestBlock().Hash, PendingTransactions);
             AddBlock(block);
             PendingTransactions = new List<Transaction>();
@@ -86,10 +83,10 @@ namespace BlockchainCoding
                for (int j=0;j<Chain[i].Transactions.Count;j++)
                 {
                     var transaction = Chain[i].Transactions[j];
-                    if (transaction.FromAddress==address)
+                  /*  if (transaction.FromAddress==address)
                     {
                         balance -= transaction.Amount;
-                    }
+                    }*/
                     if (transaction.ToAddress == address)
                     {
                         balance += transaction.Amount;
@@ -107,13 +104,13 @@ namespace BlockchainCoding
             {
                 foreach (var item2 in item.Transactions)
                 {
-                    if (!String.IsNullOrEmpty(item2.FromAddress))
+                   /* if (!String.IsNullOrEmpty(item2.FromAddress))
                     {
                         if (!UserBalance.ContainsKey(item2.FromAddress))
                         {
                             UserBalance.Add(item2.FromAddress, GetBalance(item2.FromAddress));
                         }
-                    }
+                    }*/
 
                     if (!String.IsNullOrEmpty(item2.ToAddress))
                     {
@@ -128,9 +125,13 @@ namespace BlockchainCoding
 
             }
 
+            Program.ConsoleWrite("\n < ============ MEVCUT OY DURUMU ============ >\n",LogType.Warning);
             foreach (var item in UserBalance)
             {
-                Console.WriteLine(item.Key +":"+item.Value.ToString());
+                
+                    Console.WriteLine(item.Key + ":" + item.Value.ToString());
+                
+                
             }
 
         }

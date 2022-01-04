@@ -66,7 +66,7 @@ namespace BlockchainCoding
             }
             catch (WebSocketException e)
             {
-                Program.ConsoleWrite("Connection Failed!", LogType.Error);
+                Program.ConsoleWrite("Connection Failed!" + e.ToString(), LogType.Error);
 
             }
 

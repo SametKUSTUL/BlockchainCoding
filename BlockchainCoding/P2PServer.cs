@@ -21,6 +21,8 @@ namespace BlockchainCoding
         }
         protected override void OnMessage(MessageEventArgs e)
         {
+
+
             if (e.Data == "Merhaba Server")
             {
                 Console.WriteLine(e.Data);
